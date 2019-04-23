@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('posts/{post}', 'PostController@show')->name('posts.show')->where('post', '\d+');
+Route::get('posts/{post}-{slug}', 'PostController@show')->name('posts.show')->where('post', '\d+');

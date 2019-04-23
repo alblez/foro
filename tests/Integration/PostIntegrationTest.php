@@ -22,4 +22,20 @@ class PostIntegrationTest extends TestCase
             $post->fresh()->slug
         );
     }
+
+    function test_url_attribute_return_post()
+    {
+        $user = $this->defaultUser();
+
+        $post = factory(Post::class)->make([
+            'id'    => '69',
+            'title' => 'new title'
+        ]);
+
+        $user->posts()->save($post);
+
+        $this->assertSame(
+            env('APP_URL').'/posts/69-new-title',
+            $post->url);
+    }
 }

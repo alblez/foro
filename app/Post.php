@@ -20,4 +20,9 @@ class Post extends Model
 
         $this->attributes['slug'] = Str::slug($vale);
     }
+
+    public function getUrlAttribute()
+    {
+        return route('posts.show', [$this->getKey(), $this->slug]);
+    }
 }
