@@ -1,6 +1,5 @@
 <?php
 
-use App\Post;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PostIntegrationTest extends TestCase
@@ -9,13 +8,9 @@ class PostIntegrationTest extends TestCase
 
     function test_a_slug_is_generated_and_saved_to_database()
     {
-        $user = $this->defaultUser();
-
-        $post = factory(Post::class)->make([
+        $post = $this->createPost([
             'title' => 'Como Instalar Laravel'
         ]);
-
-        $user->posts()->save($post);
 
         $this->assertSame(
             'como-instalar-laravel',
@@ -25,14 +20,10 @@ class PostIntegrationTest extends TestCase
 
     function test_url_attribute_return_post()
     {
-        $user = $this->defaultUser();
-
-        $post = factory(Post::class)->make([
+        $post = $this->createPost([
             'id'    => '69',
             'title' => 'new title'
         ]);
-
-        $user->posts()->save($post);
 
         $this->assertSame(
             env('APP_URL').'/posts/69-new-title',
