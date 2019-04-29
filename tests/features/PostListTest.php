@@ -1,8 +1,11 @@
 <?php
 
+use App\Post;
+use Carbon\Carbon;
+
 class PostListTest extends FeatureTestCase
 {
-    public function test_a_user_can_see_the_post_list_and_go_details()
+    function test_a_user_can_see_the_post_list_and_go_details()
     {
         $post = $this->createPost([
             'title' => 'Debo usar Laravel 5.3 o 5.1 LTS?'
@@ -15,12 +18,30 @@ class PostListTest extends FeatureTestCase
             ->seePageIs($post->url);
     }
 
-    public function test_a_user_can_see_X_quantity_posts_at_root()
+    function test_the_posts_are_paginated()
     {
-        factory(\App\Post::class, 50)->create();
+        //Having
+        $first = $this->createPost([
+            'title' => 'Post más antiguo',
+            'created_at' => Carbon::now()->subDay(2)
+        ]);
 
+        factory(Post::class)->times(15)->create([
+            'created_at' => Carbon::now()->subDay(1)
+        ]);
+
+        $last = $this->createPost([
+            'title' => 'Post mas reciente',
+        ]);
+
+        //Then
         $this->visit('/')
-            ->countElements('.post-element', 15);
+            ->countElements('.post-element', 15)
+            ->see($last->title)
+            ->dontSee($first->title)
+            ->click(2)
+            ->see($first->title)
+            ->dontSee($last->title);
 
     }
 }
