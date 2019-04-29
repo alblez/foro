@@ -41,4 +41,16 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         return factory(\App\Post::class)->create($attributes);
     }
+
+    /**
+     * Verify the number of dom elements
+     * @param  string   $selector the dom selector (jquery style)
+     * @param  int      $number   how many elements should be present in the dom
+     * @return $this
+     */
+    public function countElements($selector, $number)
+    {
+        $this->assertCount($number, $this->crawler->filter($selector));
+        return $this;
+    }
 }
