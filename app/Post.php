@@ -14,6 +14,11 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function comments()
+    {
+        $this->hasMany(Comment::class);
+    }
+
     public function setTitleAttribute($vale)
     {
         $this->attributes['title'] = $vale;
